@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import SearchBar from "./SearchBar";
+import Recipi from "./Recipi";
+import { fetchRecipes } from "./api";
+import Header from "./Header";
 
-function App() {
+const App: React.FC = () => {
+  const [recipes, setRecipes] = useState([]);
+
+  const handleSearch = async (query: string) => {
+    const results = await fetchRecipes(query);
+    setRecipes(results);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto">
+      <Header />
+      <SearchBar onSearch={handleSearch} />
+      <Recipi recipes={recipes} />
     </div>
   );
-}
+};
 
 export default App;
